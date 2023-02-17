@@ -14,4 +14,4 @@ SELECT * FROM users
 WHERE discordID = ?;
 ''', [discordID])
     
-    return "You have $" + f'{str(cursor.fetchall()[0][2]):,}'
+    return "You have $" + f'{cursor.fetchall()[0][2]:,}'
