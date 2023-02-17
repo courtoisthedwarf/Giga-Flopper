@@ -82,17 +82,6 @@ async def get_response(message: str, userID, channel) -> str:
         embed.set_footer(text="Check back next week for more items")
         await channel.send(embed=embed)
 
-
-    if " ".join(p_message.split(" ")) == "blackmarket":
-        embed=discord.Embed(title="The Black Market", description="What do you need?")
-        embed.set_thumbnail(url="https://cdn.vox-cdn.com/thumbor/RrK_Jrhsrd3SfTKGGksueM-m-l8=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/9253051/Xur_Destiny_2_.jpg")
-        embed.add_field(name="Booty Pic", value="$5000", inline=False)
-        embed.add_field(name="Noah Pic", value="$1000", inline=False)
-        embed.add_field(name="Joe Pic", value="$2500", inline=False)
-        embed.add_field(name="Rexley Pic", value="$2500", inline=False)
-        embed.set_footer(text="E.g 'bm purchase rexleypic'")
-        await channel.send(embed=embed)
-
     if " ".join(p_message.split(" ")[:1]) == "buy":
         return buy.buy(user_ping, p_message.split(" ")[:2][1])
 
