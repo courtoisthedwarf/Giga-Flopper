@@ -22,6 +22,6 @@ ORDER BY money DESC
     for player in players:
         if count != 10:  
             count = count + 1
-            results = results + str(count) + ". " + str(player[1]) + ": $" + f'{player[1]:,}' + "\n"
+            results = results + str(count) + ". " + str(player[1]) + ": $" + f'{int(player[1]):,}' + "\n"
 
     return results
