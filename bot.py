@@ -1,5 +1,5 @@
 import discord
-import commandhandler as commandhandler
+import commandhandler
 
 async def send_message(message, userID, channel, user_message, is_private):
     try:
