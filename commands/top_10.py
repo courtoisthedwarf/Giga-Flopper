@@ -1,6 +1,6 @@
 import sqlite3
 
-with sqlite3.connect("economy.db") as db:
+with sqlite3.connect("Giga-Flopper\economy.db") as db:
     cursor = db.cursor()
 
 class info:
@@ -8,7 +8,7 @@ class info:
     description = "Views your current balance"
     usage = "balance"
 
-def top_ten():
+async def run(user_ping, channel, args):
     cursor.execute('''
 SELECT * FROM users
 ORDER BY money DESC
@@ -24,4 +24,4 @@ ORDER BY money DESC
             count = count + 1
             results = results + str(count) + ". " + str(player[1]) + ": $" + f'{int(player[2]):,}' + "\n"
 
-    return results
+    await channel.send(results)

@@ -1,11 +1,11 @@
 from random import randint
 import sqlite3
 
-with sqlite3.connect("economy.db") as db:
+with sqlite3.connect("Giga-Flopper\economy.db") as db:
     cursor = db.cursor()
 
 
-def roll(discordID):
+async def run(user_ping, channel, args):
     fruit = [
         "🍇", 
         "🍒",
@@ -32,8 +32,8 @@ def roll(discordID):
 UPDATE users
 SET money = money + ?
 WHERE discordID = ?;
-''', [(earned - 500), (discordID)])
+''', [(earned - 500), (user_ping)])
 
     db.commit()
 
-    return rolled_fruits + "\n Congratulations, you won $" +  rolled_amount.lstrip("0")
+    await channel.send(rolled_fruits + "\n Congratulations, you won $" +  rolled_amount.lstrip("0"))

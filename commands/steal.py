@@ -2,7 +2,7 @@ import sqlite3
 from random import randint
 import math
 
-with sqlite3.connect("economy.db") as db:
+with sqlite3.connect("Giga-Flopper\economy.db") as db:
     cursor = db.cursor()
 
 class info:
@@ -10,7 +10,7 @@ class info:
     description = "Steals 20% of a players money"
     usage = "rob [@user]"
 
-def steal_from_player(discordID, target):
+def run(discordID, target):
     if discordID != target:
         success = randint(1, 5)
         

@@ -35,9 +35,7 @@ def run_bot(TOKEN):
 
         if user_message[:6].lower() == "floppa" or user_message[:7].lower() == "flopper" or user_message[:4].lower() == "flop":
             user_message = user_message.split(" ", 1)
-            await send_message(message, userID, message.channel, user_message[1], is_private = False)
-        elif user_message[:2].lower() == "bm":
-            await send_message(message, userID, message.channel, user_message[1], is_private = True)
+            await commandhandler.handle(user_message[1], userID, message.channel)
 
     
     

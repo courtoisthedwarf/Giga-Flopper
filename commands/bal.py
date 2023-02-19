@@ -1,6 +1,6 @@
 import sqlite3
 
-with sqlite3.connect("economy.db") as db:
+with sqlite3.connect("Giga-Flopper\economy.db") as db:
     cursor = db.cursor()
 
 class info:
@@ -8,10 +8,10 @@ class info:
     description = "Views your current balance"
     usage = "balance"
 
-def view_money(discordID):
+async def run(user_ping, channel, args):
     cursor.execute('''
 SELECT * FROM users
 WHERE discordID = ?;
-''', [discordID])
+''', [user_ping])
     
-    return "You have $" + f'{cursor.fetchall()[0][2]:,}'
+    await channel.send("You have $" + f'{cursor.fetchall()[0][2]:,}')

@@ -5,8 +5,8 @@ class info:
     description = "Returns their burger count"
     usage = "how many burgers [@user]"
 
-def get_burgers(user):
-    if user == "<@799198085632753674>":
-        return "ALL OF EM"
+async def run(user_ping, channel, args):
+    if args[0] == "<@799198085632753674>":
+        await channel.send("ALL OF EM")
     else:
-        return randint(0, 20)
+        await channel.send(randint(0, 20))

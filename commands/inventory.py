@@ -1,7 +1,7 @@
 import sqlite3
 from nltk.probability import FreqDist
 
-with sqlite3.connect("economy.db") as db:
+with sqlite3.connect("Giga-Flopper\economy.db") as db:
     cursor = db.cursor()
 
 class info:
@@ -9,11 +9,11 @@ class info:
     description = "Views your items"
     usage = "inventory"
 
-def view_inventory(discordID):
+async def run(user_ping, channel, args):
     cursor.execute('''
 SELECT * FROM users
 WHERE discordID = ?;
-''', [discordID])
+''', [user_ping])
     
     backpack = cursor.fetchall()[0][3]
     items = backpack.split(":")
@@ -28,4 +28,4 @@ WHERE discordID = ?;
 
 
 
-    return str(frequency)
+    await channel.send(str(frequency))

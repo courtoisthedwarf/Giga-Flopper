@@ -1,16 +1,15 @@
 import sqlite3
 from random import randint
-import math
 
-with sqlite3.connect("economy.db") as db:
+with sqlite3.connect("Giga-Flopper\economy.db") as db:
     cursor = db.cursor()
 
-def give_to_player(discordID, target, amount):
-    if discordID != target:
+async def run(user_ping, channel, args):
+    if user_ping != args[0]:
         cursor.execute('''
 SELECT * FROM users
 WHERE discordID =?
-''', [discordID])
+''', [user_ping])
         
         user = cursor.fetchall()
 
@@ -23,15 +22,15 @@ WHERE discordID =?
     UPDATE users
     SET money = money - ?
     WHERE discordID = ?
-    ''', [(amount), (discordID)])
+    ''', [(args[1]), (user_ping)])
             
             cursor.execute('''
     UPDATE users
     SET money = money + ?
     WHERE discordID = ?    
-    ''', [(amount), (target)])
+    ''', [(args[1]), (args[0])])
 
             db.commit()
 
-            return discordID + " has given " + target + " $" + str(int(amount))
+            await channel.send(user_ping + " has given " + args[0] + " $" + str(int(args[1])))
         

@@ -1,86 +1,33 @@
-import discord
+import os
 
-import commands as commands
+commands = os.listdir(os.getcwd() + "\Giga-Flopper\commands")
 
-import commands.economy as economy
+for file in commands:
+    if file.endswith(".py"):
+        execute = ("import commands." + file.split(".")[0])
+        exec(execute)
+        print(f'Loading {file.split(".")[0].replace("_", " ")}...')
 
-async def get_response(message: str, userID, channel) -> str:
-    user_ping = "<@" + str(userID) + ">"
+    elif file != "__pycache__": # Also known as an organisation im not allowed to name
+        for file2 in os.listdir(f'{os.getcwd()}\Giga-Flopper\commands\{file}'):
+            if file2.endswith(".py"):
+                exec(f'import commands.{file}.{file2.split(".")[0]}')
+                print(f'Loading {file.split(".")[0].replace("_", " ")}...')
+
+async def handle(message: str, userID, channel) -> str:
+    user_ping = f'<@{userID}>'
     
+    commands_list = os.listdir(os.getcwd() + "\Giga-Flopper\commands")
+
     p_message = message.lower()
 
-    for item in commands.question.questions:
-        if item == p_message.split(" ", 1)[0]:
-            return commands.question.get_response()
+    for file in commands_list:
+        if file.endswith(".py"):    
+            command = file.split(".py")[0]
+            formatted_message = p_message.replace(" ", "_")
+            if command in formatted_message:
+                issued_command = command
+                args = formatted_message.split(issued_command)[1].replace("_", " ")[1:].split(" ")
 
-
-    if p_message == "help":
-        embed=discord.Embed(title="Help Menu", color=0xff0000)
-        embed.set_thumbnail(url="https://preview.redd.it/g8jksihn5dr61.png?auto=webp&s=00243fd080b8f9a83878e56692da969ab6b9445b")
-        embed.add_field(name="help", value="Returns a list of my commands", inline=False)
-        embed.add_field(name="gay test [@user]", value="Tests for someone's level of gayness", inline=False)
-        embed.add_field(name="how many burgers [@user]", value="Returns someone's burger count", inline=False)
-        embed.add_field(name="create account", value="Creates an account for the economy", inline=False)
-        embed.add_field(name="crime", value="Commit a crime for money", inline=False)
-        embed.add_field(name="rob [@user]", value="Attempt to steal 20% of a player's money", inline=False)
-        embed.add_field(name="balance [@user]", value="See your balance", inline=False)
-        embed.add_field(name="top ten", value="Returns top ten richest users", inline=False)
-        embed.add_field(name="slots", value="Play slots, costs $500", inline=False)
-        embed.add_field(name="inventory", value="View your inventory", inline=False)
-        embed.add_field(name="give [@user]", value="Give money to another player", inline=False)
-        embed.add_field(name="buy [item]", value="Buy an item", inline=False)
-        embed.add_field(name="shop", value="View current shop", inline=False)
-        await channel.send(embed = embed)
-
-
-    if " ".join(p_message.split(" ")[:3]) == "how many burgers":
-        return commands.burgers.get_burgers(p_message.split(" ")[:4][3])
-
-
-    if " ".join(p_message.split(" ")[:2]) == "gay test":
-        return commands.gaytest.get_gayness(p_message.split(" ")[:3][2])
-
-    if p_message == "what are you and joe doing tonight":
-        return "https://media.tenor.com/rV8mpdXgZpAAAAAS/i-show-speed-speed.gif"
-
-
-    if " ".join(p_message.split(" ")) == "create account":
-        return economy.add_user.add_user(user_ping)
-
-
-    if " ".join(p_message.split(" ")) == "balance" or " ".join(p_message.split(" ")) == "bal":
-        return economy.view_money.view_money(user_ping)
-
-    if " ".join(p_message.split(" ")) == "inventory":
-        return economy.view_inventory.view_inventory(user_ping)
-
-    if " ".join(p_message.split(" ")[:2]) == "top ten" or " ".join(p_message.split(" ")[:2]) == "top 10":
-        return economy.topten.top_ten()
-
-    if " ".join(p_message.split(" ")) == "crime":
-        return economy.crime.crime(user_ping)
-
-    if " ".join(p_message.split(" ")) == "shop":
-        embed=discord.Embed(title="The Flop Shop", description="Hello and welcome to the flop shop, take a look around.", color=0xff0000)
-        embed.set_thumbnail(url="https://preview.redd.it/lstv0sesju991.jpg?auto=webp&s=5ff42783cbac81d0cd8a2f53445ceebc431cc4fb")
-        embed.add_field(name="Weed (10kg)", value="$100", inline=False)
-        embed.add_field(name="Phone", value="$500", inline=False)
-        embed.add_field(name="Artifact", value="$50000", inline=False)
-        embed.add_field(name="Sleepover", value="$5", inline=True)
-        embed.set_footer(text="Check back next week for more items")
-        await channel.send(embed=embed)
-
-    if " ".join(p_message.split(" ")[:1]) == "buy":
-        return economy.buy.buy(user_ping, p_message.split(" ")[:2][1])
-
-    if " ".join(p_message.split(" ")[:1]) == "rob":
-        return economy.steal_from_player.steal_from_player(user_ping, p_message.split(" ")[:2][1])
-
-    if p_message == "slots":
-        return economy.slots.roll(user_ping)
-
-    if " ".join(p_message.split(" ")) == "ping me":
-        return user_ping
-
-    if " ".join(p_message.split(" ")[:1]) == "give":
-        return economy.give.give_to_player(user_ping, p_message.split(" ")[1], p_message.split(" ")[2])
+                execute = f'commands.{command}.run("{user_ping}", channel, {args})'
+                await eval(execute)

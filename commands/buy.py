@@ -1,6 +1,6 @@
 import sqlite3
 
-with sqlite3.connect("economy.db") as db:
+with sqlite3.connect("Giga-Flopper\economy.db") as db:
     cursor = db.cursor()
 
 items = [
@@ -9,18 +9,18 @@ items = [
     ("artifact", 50000),
     ("sleepover", 5) 
 ]
-def buy(discordID, request):
+async def run(user_ping, channel, args):
     cursor.execute('''
 SELECT * FROM users
 WHERE discordID = ?;
-''', [discordID])
+''', [user_ping])
     
     user = cursor.fetchall()
     
     for item in items:
-        if item[0] == request.lower():
+        if item[0] == args[0].lower():
             if item[1] <= user[0][2]:
-                new_inventory = str(user[0][3]) + ":" + str(request)
+                new_inventory = str(user[0][3]) + ":" + str(args[0])
                 
                 update = '''
 UPDATE users
@@ -28,11 +28,11 @@ SET items = ?, money = money - ?
 WHERE discordID = ?;
 ''' 
 
-                cursor.execute(update, [(new_inventory), (item[1]), (discordID)])
+                cursor.execute(update, [(new_inventory), (item[1]), (user_ping)])
                 db.commit()
 
-                return "Transaction completed for " + request + ": - $" + str(item[1])
+                await channel.send("Transaction completed for " + args[0] + ": - $" + str(item[1]))
             elif user[2] < item[1]:
-                return "You don't have enough money to buy that lmao."
+                await channel.send("You don't have enough money to buy that lmao.")
         else:
             continue

@@ -1,7 +1,7 @@
 import sqlite3
 from random import randint
 
-with sqlite3.connect("economy.db") as db:
+with sqlite3.connect("Giga-Flopper\economy.db") as db:
     cursor = db.cursor()
 
 class info:
@@ -9,20 +9,20 @@ class info:
     description = "Commit a crime for money"
     usage = "crime"
 
-def crime(discordID):
+async def run(user_ping, channel, args):
     blessed = False
     earned = 0
 
     cursor.execute('''
 SELECT * FROM users
 WHERE discordID = ?    
-''', [discordID])
+''', [user_ping])
 
     user = cursor.fetchall()
 
     for item in user[0][3].split(":"):
         if item == "artifact":
-            if randint(0,100) == 1 or discordID == "<@660156765689872395>":
+            if randint(0,100) == 1 or user_ping == "<@660156765689872395>":
                 blessed = True
                 earned = randint(1000, 50000)
             else:
@@ -58,15 +58,15 @@ WHERE discordID = ?;
 '''
     
     if earned > 0 and blessed != True:
-        cursor.execute(edit, [(earned), (discordID)])
+        cursor.execute(edit, [(earned), (user_ping)])
         db.commit()
         return crimes[randint(0, len(crimes) - 1)] + " and you earned $" + str(earned)
     elif earned < 0 and blessed != True:
-        cursor.execute(edit, [(earned), (discordID)])
+        cursor.execute(edit, [(earned), (user_ping)])
         db.commit()
         return failed_crimes[randint(0, len(failed_crimes) - 1)] + " and you lost $" + str(earned)[1:]
     elif blessed == True:
         earned = randint(1000, 50000)
-        cursor.execute(edit, [(earned), (discordID)])
+        cursor.execute(edit, [(earned), (user_ping)])
         db.commit()
-        return "You have been blessed by the artifact, and you earned $" + str(earned)
+        await channel.send("You have been blessed by the artifact, and you earned $" + str(earned))
