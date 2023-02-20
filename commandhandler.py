@@ -1,6 +1,6 @@
 import os
 
-commands = os.listdir(os.getcwd() + "\Giga-Flopper\commands")
+commands = os.listdir(os.getcwd() + "/Giga-Flopper/commands")
 
 for file in commands:
     if file.endswith(".py"):
@@ -9,7 +9,7 @@ for file in commands:
         print(f'Loading {file.split(".")[0].replace("_", " ")}...')
 
     elif file != "__pycache__": # Also known as an organisation im not allowed to name
-        for file2 in os.listdir(f'{os.getcwd()}\Giga-Flopper\commands\{file}'):
+        for file2 in os.listdir(f'{os.getcwd()}/Giga-Flopper/commands/{file}'):
             if file2.endswith(".py"):
                 exec(f'import commands.{file}.{file2.split(".")[0]}')
                 print(f'Loading {file.split(".")[0].replace("_", " ")}...')
@@ -17,7 +17,7 @@ for file in commands:
 async def handle(message: str, userID, channel) -> str:
     user_ping = f'<@{userID}>'
     
-    commands_list = os.listdir(os.getcwd() + "\Giga-Flopper\commands")
+    commands_list = os.listdir(os.getcwd() + "/Giga-Flopper/commands")
 
     p_message = message.lower()
 
