@@ -1,12 +1,12 @@
 import sqlite3
 
-with sqlite3.connect("Giga-Flopper\economy.db") as db:
+with sqlite3.connect("economy.db") as db:
     cursor = db.cursor()
 
 class info:
     name = "View money"
     description = "Views your current balance"
-    usage = "balance"
+    usage = "bal"
 
 async def run(user_ping, channel, args):
     cursor.execute('''

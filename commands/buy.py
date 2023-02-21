@@ -3,12 +3,19 @@ import sqlite3
 with sqlite3.connect("Giga-Flopper\economy.db") as db:
     cursor = db.cursor()
 
+class Info:
+    name = "Buy"
+    description = "Purchase an item from the shop"
+    usage = "buy [item]"    
+
+
 items = [
     ("weed", 100),
     ("phone", 500),
     ("artifact", 50000),
     ("sleepover", 5) 
 ]
+
 async def run(user_ping, channel, args):
     cursor.execute('''
 SELECT * FROM users

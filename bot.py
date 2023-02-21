@@ -1,16 +1,6 @@
 import discord
 import commandhandler
 
-async def send_message(message, userID, channel, user_message, is_private):
-    try:
-        response = await commandhandler.get_response(user_message, userID, channel)
-        await message.author.send(response) if is_private else await message.channel.send(response)
-    
-    except Exception as error:
-        print(error)
-
-    
-
 def run_bot(TOKEN):
     intents = discord.Intents.default()
     intents.message_content = True

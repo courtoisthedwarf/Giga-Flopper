@@ -1,7 +1,7 @@
 import sqlite3
 from random import randint
 
-with sqlite3.connect("Giga-Flopper\economy.db") as db:
+with sqlite3.connect("economy.db") as db:
     cursor = db.cursor()
 
 class info:

@@ -1,8 +1,13 @@
 import sqlite3
 from random import randint
 
-with sqlite3.connect("Giga-Flopper\economy.db") as db:
+with sqlite3.connect("economy.db") as db:
     cursor = db.cursor()
+
+class Info:
+    name = "Give"
+    description = "Gives target user money"
+    usage = "give [@user] [amount]" 
 
 async def run(user_ping, channel, args):
     if user_ping != args[0]:
