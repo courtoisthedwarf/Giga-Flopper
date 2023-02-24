@@ -60,11 +60,11 @@ WHERE discordID = ?;
     if earned > 0 and blessed != True:
         cursor.execute(edit, [(earned), (user_ping)])
         db.commit()
-        return crimes[randint(0, len(crimes) - 1)] + " and you earned $" + str(earned)
+        await channel.send(crimes[randint(0, len(crimes) - 1)] + " and you earned $" + str(earned))
     elif earned < 0 and blessed != True:
         cursor.execute(edit, [(earned), (user_ping)])
         db.commit()
-        return failed_crimes[randint(0, len(failed_crimes) - 1)] + " and you lost $" + str(earned)[1:]
+        await channel.send(failed_crimes[randint(0, len(failed_crimes) - 1)] + " and you lost $" + str(earned)[1:])
     elif blessed == True:
         earned = randint(1000, 50000)
         cursor.execute(edit, [(earned), (user_ping)])
